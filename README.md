@@ -1,11 +1,16 @@
 # portion-viz
 
-For my Interactive Data Visualization class, I'm creating an exploratory visualization of House of Representatives counts by state under various apportionment scenarios. This is meant to help people explore some issues at stake when redistricting happens in 2021.
+For my Interactive Data Visualization class, I'm creating an exploratory visualization of possible district maps in the state of Missouri and their corresponding efficiency gaps. A bill was recently introduced in Missouri to raise the efficiency gap cap to 15%. I want this visualization to help citizens put that value into context. 
 
-Broadly, the idea is to create a [cartogram](http://maggielee.net/georgia-county-cartogram/) of the US map based on a few different variables. When a user makes a selection from a number of different drop-down options, the size of the state adjusts to the number of estimated representatives each state would have. I'm interested in drawing attention to a number of open questions surrounding the 2020 census, reapportionment, and redistricting: 1) how differential privacy could impact redistricting, 2) how districts could be gerrymandered on the basis of citizenship, and 3) different methods of apportionment that exist (and could be used).
+For the data, I will build an ensemble of districting plans using Markov chain Monte Carlo sampling. Comparing all of the possible plans and their corresponding efficiency gaps provides a visual tool for showing whether or not a certain plan is an outlier among the sampled plans. 
 
-The first two areas of exploration will not actually impact congressional apportionment -- no matter what, the number of U.S. Representatives will be calculated based on total population. However, when redistricting within each state happens, citizenship and differential privacy could hugely change how political lines are drawn. This visualization aims to illustrate the scope of possible changes based on those variables.
+The main visual components will be a histogram and a map. The histogram will have bars of stacked dots, where each dot represents a plan from the ensemble. The dot will be colored by its partisan lean. When a user hovers over the dot, a map of the state will appear with that plan's corresponding district lines.
 
-The user for this might be a policymaker or citizen with questions about the census, redistricting, and/or reapportionment. It could also be a journalist who wants help understanding these issues. 
+I also want to highlight cases where a plan was struck down by state or federal counts because it was deemed unconstitutional. These plans will be highlighted in a different color, yellow, and when an invidual hovers over them a table with information about that case will appear. 
+
+A user can select different parameters for the sampling plan: whether or not to preserve county boundaries when drawing plans, the range of compactness, and whether or not the equal population constraint is to be applied . 
+
+
+The user for this might be a policymaker or citizen with questions about the redistricting in Missouri. It could also be a journalist who wants help understanding these issues. 
 
 
