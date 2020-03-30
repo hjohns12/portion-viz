@@ -5,81 +5,72 @@ class Histogram {
       this.width = window.innerWidth * 0.6;
       this.height = window.innerHeight * 0.6;
       this.margins = { top: 20, bottom: 20, left: 20, right: 20 };
-      // this.duration = 1000;
-      // this.format = d3.format(",." + d3.precisionFixed(1) + "f");
-  
+
       this.svg = d3
         .select("#histogram")
         .append("svg")
         .attr("width", this.width)
         .attr("height", this.height);
-    }
-  
-    draw(state, setGlobalState) {
-      console.log("now I am drawing my graph");
-  
-      // const filteredData = state.data.find(d => state.selectedState === d.State);
-      // const metrics = ["Age < 20", "Age 20-65", "Age 65+"];
-      // const metricData = metrics.map(metric => {
-      //   return {
-      //     state: state.selectedState,
-      //     metric: metric,
-      //     value: filteredData ? filteredData[metric] : 0,
-      //   };
-      // });
-  
-      const xScale = d3
+      
+      // add x-axis to the graph (do this once)
+      this.xScale =  d3
         .scaleLinear()
-        .domain(d3.extent(state, d => d.eg)).nice() // dont think this is right 
+        .domain(d3.extent(state.data, d => d.eg))
         .range([this.margins.left, this.width - this.margins.right]);
       
-      const bins = d3
-        .histogram()
-        .domain(xScale.domain)
-        .thresholds(xScale.ticks(40))
-        .data(data)
+      const xAxis = d3.axisBottom(this.xScale);
+
+      // need to figure out how to position this so that it shows up
+      this.svg
+        .append("g")
+        .attr("class", "axis x-axis")
+        .attr("transform", `translate(0, ${this.height - this.margins.bottom})`)
+        .call(xAxis)
+        .append("text")
+        .attr('class', 'axis-label')
+        .attr('x', '50%')
+        .attr('dy', '3em')
+        .text("Efficiency Gap");
       
-      const yScale = d3
-        .scaleLinear()
-        .domain([0, d3.max(bins, d => d.length)]).nice()
-        .range([this.height - this.margins.top, this.margins.bottom]);
+      this.g = this.svg.append("g")
+        .attr("transform", `translate(0, ${this.margins.top})`)
+
+
+    
+      const simulation = d3.forceSimulation(state.data)
+        .force("x", d3.forceX(d => this.xScale(d.eg)).strength(1))
+        .force("y", d3.forceY(this.height / 2))
+        .force("collide", d3.forceCollide(4))
+        .stop();      
+      
+      for (var i = 0; i < 120; ++i) simulation.tick();
+
+      }
+
+    draw(state, setGlobalState) {
+      const formatValue = d3.format(".3");
+
+      this.cell = this.g.append("g")
+        .attr("class", "cells")
+        .selectAll("g").data(d3.voronoi() //consider using d3-delaunay for performance 
+        .extent([[-this.margins.left, -this.margins.top], [this.width + this.margins.right, this.height + this.margins.top]])
+        .x(function(d) { return d.x ; })
+        .y(function(d) { return d.y; })
+        .polygons(state.data)).enter().append("g");
+
+      this.cell.append("circle")
+          .attr("r", 3)
+          .attr("cx", function(d) { 
+            return d.data.x;
+          })
+          .attr("cy", function(d) { 
+            return d.data.y; 
+          });
+
+      this.cell.append("info")
+          .text(function(d) { return "EG:" + formatValue(d.data.eg) ; });
   
-      const bars = this.svg
-        .selectAll("g.bar")
-        .data(metricData)
-        .join(
-          enter =>
-            enter
-              .append("g")
-              .attr("class", "bar")
-              .call(enter => enter.append("rect"))
-              .call(enter => enter.append("text")),
-          update => update,
-          exit => exit.remove()
-        ).on("click", d => {
-          setGlobalState({ selectedMetric: d.metric });
-        })
-  
-      bars
-        .transition()
-        .duration(this.duration)
-        .attr(
-          "transform",
-          d => `translate(${xScale(d.metric)}, ${yScale(d.value)})`
-        );
-  
-      bars
-        .select("rect")
-        .transition()
-        .duration(this.duration)
-        .attr("width", xScale.bandwidth())
-        .attr("height", d => this.height - yScale(d.value))
-        .style("fill", d => d.metric === state.selectedMetric ? "purple" : "#ccc")
-  
-      bars
-        .select("text")
-        .attr("dy", "-.5em")
-        .text(d => `${d.metric}: ${this.format(d.value)}`);
+
     }
   }
   

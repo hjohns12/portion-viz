@@ -9,12 +9,15 @@ let histogram;
 // global state
 let state = {
   data: [],
-  domain: [],
-  selectedState: null,
-  selectedMetric: null,
 };
 
-d3.csv("../data/sampled-plans.csv", d3.autoType).then(data => {
+function type(d) {
+    if (!d.eg) return;
+    d.eg = +d.eg;
+    return d;
+}
+
+d3.csv("../data/sampled-plans.csv", type).then(data => {
   console.log("data", data);
   state.data = data;
 //   state.domain = [
