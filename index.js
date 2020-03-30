@@ -1,10 +1,10 @@
 // import our components
 // import { Table } from "./Table.js";
 // import { Boxplot } from "./Boxplot.js";
-import { Histogram } from "./Histogram.js";
+import { Beeswarm } from "./Beeswarm.js";
 
-// let table, boxplot, Histogram;
-let histogram;
+// let table, boxplot, beeswarm;
+let beeswarm;
 
 // global state
 let state = {
@@ -32,14 +32,14 @@ d3.csv("../data/sampled-plans.csv", type).then(data => {
 function init() {
 //   table = new Table(state, setGlobalState);
 //   boxplot = new Boxplot(state, setGlobalState);
-  histogram = new Histogram(state, setGlobalState);
+  beeswarm = new Beeswarm(state, setGlobalState);
   draw();
 }
 
 function draw() {
 //   table.draw(state);
 //   boxplot.draw(state, setGlobalState);
-  histogram.draw(state, setGlobalState);
+  beeswarm.draw(state, setGlobalState);
 }
 
 // UTILITY FUNCTION: state updating function that we pass to our components so that they are able to update our global state object

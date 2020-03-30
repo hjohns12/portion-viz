@@ -1,4 +1,4 @@
-class Histogram {
+class Beeswarm {
 
     constructor(state, setGlobalState) {
       // initialize properties here
@@ -7,7 +7,7 @@ class Histogram {
       this.margins = { top: 20, bottom: 20, left: 20, right: 20 };
 
       this.svg = d3
-        .select("#histogram")
+        .select("#beeswarm")
         .append("svg")
         .attr("width", this.width)
         .attr("height", this.height);
@@ -35,8 +35,6 @@ class Histogram {
       this.g = this.svg.append("g")
         .attr("transform", `translate(0, ${this.margins.top})`)
 
-
-    
       const simulation = d3.forceSimulation(state.data)
         .force("x", d3.forceX(d => this.xScale(d.eg)).strength(1))
         .force("y", d3.forceY(this.height / 2))
@@ -44,7 +42,6 @@ class Histogram {
         .stop();      
       
       for (var i = 0; i < 120; ++i) simulation.tick();
-
       }
 
     draw(state, setGlobalState) {
@@ -61,18 +58,14 @@ class Histogram {
       this.cell.append("circle")
           .attr("r", 3)
           .attr("cx", function(d) { 
-            return d.data.x;
-          })
+            return d.data.x; })
           .attr("cy", function(d) { 
-            return d.data.y; 
-          });
+            return d.data.y; });
 
       this.cell.append("info")
           .text(function(d) { return "EG:" + formatValue(d.data.eg) ; });
-  
-
     }
   }
   
-  export { Histogram };
+  export { Beeswarm };
   
