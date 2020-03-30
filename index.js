@@ -1,10 +1,10 @@
 // import our components
 // import { Table } from "./Table.js";
-// import { Boxplot } from "./Boxplot.js";
+import { Boxplot } from "./Boxplot.js";
 import { Beeswarm } from "./Beeswarm.js";
 
 // let table, boxplot, beeswarm;
-let beeswarm;
+let boxplot, beeswarm;
 
 // global state
 let state = {
@@ -23,7 +23,7 @@ d3.csv("../data/sampled-plans.csv", type).then(data => {
   state.domain = [
     0, 
     d3.max(data
-      .map(d => [d["0"], d["1"], d["2"], d["3"], d["4"], d["5"], d["6"], d["7ß"]])
+      .map(d => [d["0"], d["1"], d["2"], d["3"], d["4"], d["5"], d["6"], d["7"]])
       .flat()
     )]
   init();
@@ -31,14 +31,14 @@ d3.csv("../data/sampled-plans.csv", type).then(data => {
 
 function init() {
 //   table = new Table(state, setGlobalState);
-//   boxplot = new Boxplot(state, setGlobalState);
+  boxplot = new Boxplot(state, setGlobalState);
   beeswarm = new Beeswarm(state, setGlobalState);
   draw();
 }
 
 function draw() {
 //   table.draw(state);
-//   boxplot.draw(state, setGlobalState);
+  boxplot.draw(state, setGlobalState);
   beeswarm.draw(state, setGlobalState);
 }
 
