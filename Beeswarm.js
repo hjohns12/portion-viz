@@ -12,7 +12,6 @@ class Beeswarm {
         .attr("width", this.width)
         .attr("height", this.height);
       
-      // add x-axis to the graph (do this once)
       this.xScale =  d3
         .scaleLinear()
         .domain(d3.extent(state.data, d => d.eg))
