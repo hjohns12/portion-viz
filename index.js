@@ -20,12 +20,12 @@ function type(d) {
 d3.csv("../data/sampled-plans.csv", type).then(data => {
   console.log("data", data);
   state.data = data;
-  // state.domain = [
-  //   0, 
-  //   d3.max(data
-  //     .map(d => [d["1"], d["2"], d["3"], d["4"], d["5"], d["6"], d["7"], d["8"]])
-  //     .flat()
-  //   )]
+  state.domain = [
+    0, 
+    d3.max(data
+      .map(d => [d["1"], d["2"], d["3"], d["4"], d["5"], d["6"], d["7"], d["8"]])
+      .flat()
+    )]
   const long_data = [];
   data.forEach( function(row) {
     Object.keys(row).forEach(function(colname) {
