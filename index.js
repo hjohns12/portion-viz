@@ -29,7 +29,9 @@ d3.csv("../data/sampled-plans.csv", type).then(data => {
   const long_data = [];
   data.forEach( function(row) {
     Object.keys(row).forEach(function(colname) {
-      if(colname == "District" || colname == "Value") {
+      if(colname == "District" || colname == "Value" || 
+         colname == "type" || colname == "eg" || colname == "id" ||
+         colname == "D_seats" || colname == "hash") {
         return
       }
       long_data.push({"District": colname,
@@ -37,7 +39,8 @@ d3.csv("../data/sampled-plans.csv", type).then(data => {
                       "type": row["type"],
                       "eg": row["eg"],
                       "id": row["id"],
-                      "somevalue": row["Unnamed: 0"] });
+                      "D_seats": row["D_seats"],
+                      "hash": row["hashf"] });
     });
   });
   state.long_data = long_data;
