@@ -11,13 +11,7 @@ let state = {
   data: [],
 };
 
-function type(d) {
-    if (!d.eg) return;
-    d.eg = +d.eg;
-    return d;
-}
-
-d3.csv("../data/sampled-plans.csv", type).then(data => {
+d3.csv("../data/sampled-plans.csv", d3.autoType).then(data => {
   console.log("data", data);
   state.data = data;
   state.domain = [
@@ -35,7 +29,7 @@ d3.csv("../data/sampled-plans.csv", type).then(data => {
         return
       }
       long_data.push({"District": colname,
-                      "Value": row[colname],
+                      "Value": +row[colname],
                       "type": row["type"],
                       "eg": row["eg"],
                       "id": row["id"],
