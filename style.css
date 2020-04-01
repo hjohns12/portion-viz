@@ -3,3 +3,10 @@
 .cells :hover circle {
     fill: red;
   }
+
+  .axis-label {
+    font-size: 14px;
+    fill: black;
+    text-anchor: middle;
+  }
+  
