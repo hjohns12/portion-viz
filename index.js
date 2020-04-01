@@ -11,7 +11,7 @@ let state = {
   data: [],
 };
 
-d3.csv("../data/sampled-plans.csv", d3.autoType).then(data => {
+d3.csv("../data/sampled-plans_half.csv", d3.autoType).then(data => {
   console.log("data", data);
   state.data = data;
   state.domain = [
@@ -34,7 +34,7 @@ d3.csv("../data/sampled-plans.csv", d3.autoType).then(data => {
                       "eg": row["eg"],
                       "id": row["id"],
                       "D_seats": row["D_seats"],
-                      "hash": row["hashf"] });
+                      "hash": row["hash"] });
     });
   });
   state.long_data = long_data;
