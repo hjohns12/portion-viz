@@ -53,7 +53,7 @@ function init() {
     let tempFilter = [];
     let tempFilterLong = [];
     setGlobalState({selectedConstraint: this.value});
-    // should make these "if" statements to not filter the data if initial value
+    // should maybe make these "if" statements to not filter the data if initial value
     tempFilter = state.data.filter(d => d.type === state.selectedConstraint);
     setGlobalState({filtered_data: tempFilter})
     tempFilterLong = state.long_data.filter(d => d.type === state.selectedConstraint)
