@@ -9,9 +9,11 @@ let boxplot, beeswarm;
 // global state
 let state = {
   data: [],
+  domain: [],
+  selectedConstraint: null, 
 };
 
-d3.csv("../data/sampled-plans_half.csv", d3.autoType).then(data => {
+d3.csv("../data/sampled-plans.csv", d3.autoType).then(data => {
   console.log("data", data);
   state.data = data;
   state.domain = [
@@ -43,7 +45,19 @@ d3.csv("../data/sampled-plans_half.csv", d3.autoType).then(data => {
 })
 
 function init() {
-//   table = new Table(state, setGlobalState);
+  const initial_value = "Select a constraint";
+  const selectElement = d3.select('#dropdown').on("change", function(){
+    console.log("new value is", this.value);
+    setGlobalState({selectedConstraint: this.value});
+  })
+  selectElement
+    .selectAll("option")
+    .data([...Array.from(new Set(state.data.map(d => d.type))), initial_value])
+    .join("option")
+    .attr("value", d => d)
+    .text(d => d);
+  selectElement.property("value", initial_value);
+  //   table = new Table(state, setGlobalState);
   boxplot = new Boxplot(state, setGlobalState);
   beeswarm = new Beeswarm(state, setGlobalState);
   draw();
@@ -55,7 +69,8 @@ function draw() {
   beeswarm.draw(state, setGlobalState);
 }
 
-// UTILITY FUNCTION: state updating function that we pass to our components so that they are able to update our global state object
+// UTILITY FUNCTION: 
+// state updating function that we pass to our components so that they are able to update our global state object
 function setGlobalState(nextState) {
   state = { ...state, ...nextState };
   console.log("new state:", state);
