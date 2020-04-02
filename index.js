@@ -16,7 +16,7 @@ let state = {
   filtered_long_data: []
 };
 
-d3.csv("../data/sampled-plans.csv", d3.autoType).then(data => {
+d3.csv("./data/sampled-plans.csv", d3.autoType).then(data => {
   console.log("data", data);
   state.data = data;
   state.domain = [
