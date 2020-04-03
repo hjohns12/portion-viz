@@ -12,7 +12,8 @@ class Boxplot {
           .attr("height", this.height);
 
         this.districts = ["District 1", "District 2", "District 3", "District 4", "District 5", "District 6", "District 7", "District 8"]
-                // set up the scales
+
+        // set up the scales
         this.xScale = d3
             .scaleBand()
             .domain(this.districts)
@@ -45,6 +46,9 @@ class Boxplot {
             .attr("dx", "-3em")
             .attr("writing-mode", "vertical-rl")
             .text("Democratic voteshare");
+
+        // initialize container
+        this.container = this.svg.append("g").attr("class", "container")
     }
 
     draw(state, setGlobalState) {
@@ -69,19 +73,30 @@ class Boxplot {
               bin.outliers = bin.filter(v => v.Value < bin.r0 || v.Value > bin.r1); // TODO - does this make sense?? 
               bin.district = "District " + bin.x0;
               bin.distNum = bin.x0;
+              bin.type = bin.map(d => d.type)[0];
               return bin;
             })
         console.log("bins", bins)
         
         // make boxes
 
-        // second approach: pass in the data each time
-        const g = this.svg.append("g")
-            .selectAll("g")
-            .data(bins)
+        // have a new method called bin, and set them in state 
+// make sure that the filter checks first if 
+// map over 
+// bin (data, type, setGobalState) {
+//   (data)
+
+//   setGlobalState({[type]: bins  })
+
+// }
+
+            this.container
+            .selectAll("g.child")
+            .data(bins) // data(state[state.selectedConstraint], d => d.district)
            // .join("g");
             .join(enter => enter
-                   .append("g")
+                .append("g")
+                .attr("class", d => `child ${d.district}, ${d.type}`)
                    .call(sel => sel.append("line") //vertical line
                       .attr("stroke", "black")
                       .attr('x1', d => this.xScale(d.district) + this.xScale.bandwidth()/2)
@@ -103,7 +118,6 @@ class Boxplot {
                       .attr('y1', d => this.yScale(d.quartiles[1]))
                       .attr('y2', d => this.yScale(d.quartiles[1]))
                       )
-                   
                    .call(sel => sel.append("g") // outlier dots 
                       .attr("fill", "currentColor")
                       .attr("fill-opacity", 0.2)
@@ -117,11 +131,7 @@ class Boxplot {
                       .attr("cy", d => this.yScale(d.Value))
                     ),
                 update => update,
-                exit => exit
-                    .call(sel => sel.select("rect")
-                    .remove()
-                    )
-                
+                exit => exit.remove()
                 );
     }
 
