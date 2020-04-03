@@ -48,16 +48,19 @@ d3.csv("./data/sampled-plans.csv", d3.autoType).then(data => {
 })
 
 function init() {
+
   const initial_value = "Select a constraint";
   const selectElement = d3.select('#dropdown').on("change", function(){
     let tempFilter = [];
     let tempFilterLong = [];
-    setGlobalState({selectedConstraint: this.value});
     // should maybe make these "if" statements to not filter the data if initial value
     tempFilter = state.data.filter(d => d.type === state.selectedConstraint);
-    setGlobalState({filtered_data: tempFilter})
     tempFilterLong = state.long_data.filter(d => d.type === state.selectedConstraint)
-    setGlobalState({filtered_long_data: tempFilterLong})
+    setGlobalState({
+      selectedConstraint: this.value, 
+      filtered_data: tempFilter,
+      filtered_long_data: tempFilterLong
+    });
 
   })
   selectElement
