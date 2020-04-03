@@ -89,11 +89,13 @@ class Boxplot {
 //   setGlobalState({[type]: bins  })
 
 // }
-
+            console.log("selected constraint", state.selectedConstraint);
+            
             this.container
             .selectAll("g.child")
-            .data(bins) // data(state[state.selectedConstraint], d => d.district)
-           // .join("g");
+          //  .data(bins, d => d.type) // data(state[state.selectedConstraint], d => d.district)
+             .data(bins.filter(d => d.type === state.selectedConstraint))
+              // .join("g");
             .join(enter => enter
                 .append("g")
                 .attr("class", d => `child ${d.district}, ${d.type}`)
