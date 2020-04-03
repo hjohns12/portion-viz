@@ -101,8 +101,9 @@ class Boxplot {
                       .attr('x1', d => this.xScale(d.district))
                       .attr('x2', d => this.xScale(d.district) + this.xScale.bandwidth())
                       .attr('y1', d => this.yScale(d.quartiles[1]))
-                      .attr('y2', d => this.yScale(d.quartiles[1])))
-                   )
+                      .attr('y2', d => this.yScale(d.quartiles[1]))
+                      )
+                   
                    .call(sel => sel.append("g") // outlier dots 
                       .attr("fill", "currentColor")
                       .attr("fill-opacity", 0.2)
@@ -114,61 +115,14 @@ class Boxplot {
                       .attr("r", 3)
                       .attr("cx", () => (Math.random() - 0.5) * 4)
                       .attr("cy", d => this.yScale(d.Value))
-            )
+                    ),
                 update => update,
-                exit => 
-                    exit.call(exit => 
-                        exit
-                            .transition()
-                          //  .delay(100) //relate this to the district number variable
-                            .duration(500)
-                            .attr("y1", this.height)
-                            .attr("y2", this.height)
-                            .remove()
-                        )
-        
-        // vertical line
-
-        // g.selectAll("line")
-        //     .data(bins)
-
-        // g.append("line")
-        //     .attr("stroke", "black")
-        //     .attr('x1', d => this.xScale(d.district) + this.xScale.bandwidth()/2)
-        //     .attr('x2', d => this.xScale(d.district) + this.xScale.bandwidth()/2)
-        //     .attr('y1', d => this.yScale(d.r1))
-        //     .attr('y2', d => this.yScale(d.r0))
-
-        // box 
-        // g.append("rect")
-        //     .attr("y", d => this.yScale(d.quartiles[2]))
-        //     .attr("x", d => this.xScale(d.district))
-        //     .attr("width", this.xScale.bandwidth())
-        //     .attr("height", d => this.yScale(d.quartiles[0]) - this.yScale(d.quartiles[2]))
-        //     .attr("fill", "#ddd")
-
-        // // median line
-        // g.append("line")
-        //     .attr("stroke", "black")
-        //     .attr('x1', d => this.xScale(d.district))
-        //     .attr('x2', d => this.xScale(d.district) + this.xScale.bandwidth())
-        //     .attr('y1', d => this.yScale(d.quartiles[1]))
-        //     .attr('y2', d => this.yScale(d.quartiles[1]))
-
-        // // outlier dots 
-        // g.append("g")
-        //     .attr("fill", "currentColor")
-        //     .attr("fill-opacity", 0.2)
-        //     .attr("stroke", "none")
-        //     .attr("transform", d => `translate(${this.xScale(d.district) + this.xScale.bandwidth()/2},0)`)
-        //     .selectAll("circle")
-        //     .data(d => d.outliers)
-        //     .join("circle")
-        //     .attr("r", 3)
-        //     .attr("cx", () => (Math.random() - 0.5) * 4)
-        //     .attr("cy", d => this.yScale(d.Value));
-
-
+                exit => exit
+                    .call(sel => sel.select("rect")
+                    .remove()
+                    )
+                
+                );
     }
 
 
