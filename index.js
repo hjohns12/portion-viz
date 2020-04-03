@@ -54,15 +54,14 @@ function init() {
     let tempFilter = [];
     let tempFilterLong = [];
     // should maybe make these "if" statements to not filter the data if initial value
+    setGlobalState({selectedConstraint: this.value})
     tempFilter = state.data.filter(d => d.type === state.selectedConstraint);
     tempFilterLong = state.long_data.filter(d => d.type === state.selectedConstraint)
     setGlobalState({
-      selectedConstraint: this.value, 
       filtered_data: tempFilter,
       filtered_long_data: tempFilterLong
     });
-
-  })
+  });
   selectElement
     .selectAll("option")
     .data([...Array.from(new Set(state.data.map(d => d.type))), initial_value])
