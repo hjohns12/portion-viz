@@ -107,7 +107,6 @@ class Boxplot {
                       )
                    .call(sel => sel.append("g") // outlier dots 
                       .attr("stroke", "black")
-                    //   .attr("fill-opacity", 0.2)
                       .attr("transform", d => `translate(${this.xScale(d.district) + this.xScale.bandwidth()/2},0)`)
                       .selectAll("circle")
                       .data(d => d.outliers)
@@ -117,9 +116,7 @@ class Boxplot {
                       .attr("cx", () => (Math.random() - 0.5) * 2)
                       .attr("cy", d => this.yScale(d.Value))
                       .on('click', d => {
-                          console.log("before global state hash", d.hash)
                           setGlobalState({ clickedOutlier: d.hash }); 
-                          console.log("after global state hash", d.hash)
                     })
                     ),
                 update => update,
