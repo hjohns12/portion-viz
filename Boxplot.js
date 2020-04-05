@@ -107,14 +107,13 @@ class Boxplot {
                       )
                    .call(sel => sel.append("g") // outlier dots 
                       .attr("stroke", "black")
-                      .style("fill", 'white') 
-                      .attr("fill-opacity", 0.2)
+                    //   .attr("fill-opacity", 0.2)
                       .attr("transform", d => `translate(${this.xScale(d.district) + this.xScale.bandwidth()/2},0)`)
                       .selectAll("circle")
                       .data(d => d.outliers)
                       .join("circle")
                       .attr("class", 'outlier-dots')
-                      .attr("r", 5)
+                    //   .attr("r", 5)
                       .attr("cx", () => (Math.random() - 0.5) * 2)
                       .attr("cy", d => this.yScale(d.Value))
                       .on('click', d => {
@@ -127,16 +126,12 @@ class Boxplot {
                 exit => exit.remove()
                 );
         
-        // this.container
-        //    .select('.outlier-dots')
-        //    .attr('stroke', d => 
-        //     state.clickedOutlier === d.hash ? 'red' : 'black')
+        this.container
+           .selectAll('.outlier-dots')
+           .attr('fill', d => state.clickedOutlier === d.hash ? 'yellow' : 'white')
+           .attr('r', d => state.clickedOutlier === d.hash ? 10 : 5)
+           .attr('fill-opacity', d => state.clickedOutlier === d.hash ? 1 : 0.5)
     }
 }
-
-
-// this.tableRows.style("background-color", d =>
-// state.selectedState === d.State ? "grey" : this.colorScale(d['Total Housing Units'])
-// );
 
 export { Boxplot };
