@@ -26,20 +26,29 @@ class Table {
     }
 
     draw(state) {
+        const formatValue = d3.format(".3");
 
-        // this.tableRows = this.table
-        //     .append("tbody")
-        //     .selectAll("tr")
-        //     .data(state.clickedData)
-        //     .join("tr")
+        if (state.clickedData !== null) {
 
-       
-        //    this.tableRows
-        //      .selectAll("td")
-        //      .data(d => Object.values(d))
-        //      .join("td")
-        //      .text(d => d);
+            const selectData = [state.clickedData].map(d => ({
+                "D Seats": +d.D_seats,
+                "R Seats": 8 - +d.D_seats,
+                "EG": formatValue(d.eg),
+            }))
+            console.log("selectData", selectData);            
 
+            this.tableRows = this.table
+            .append("tbody")
+            .selectAll("tr")
+            .data(selectData)
+            .join("tr")
+
+           this.tableRows
+             .selectAll("td")
+             .data(d => Object.values(d))
+             .join("td")
+             .text(d => d);
+        }
 
     }
 
