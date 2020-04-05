@@ -68,6 +68,9 @@ class Beeswarm {
               return d.data.y; })
             .attr("hash", function(d) { 
                 return d.data.hash; })
+            .on('click', function(d) {
+                return setGlobalState({clickedData: d.data});
+            })
           ),
         update => update,
         exit => exit.remove()
