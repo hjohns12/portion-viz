@@ -10,3 +10,6 @@
     text-anchor: middle;
   }
   
+  .circles {
+    pointer-events: all;
+  }

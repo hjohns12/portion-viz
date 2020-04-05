@@ -76,7 +76,6 @@ class Boxplot {
               bin.type = bin.map(d => d.type)[0];
               return bin;
             })
-        console.log("bins", bins)
         
         // make boxes
             this.container
@@ -107,23 +106,37 @@ class Boxplot {
                       .attr('y2', d => this.yScale(d.quartiles[1]))
                       )
                    .call(sel => sel.append("g") // outlier dots 
-                      .attr("fill", "currentColor")
+                      .attr("stroke", "black")
+                      .style("fill", 'white') 
                       .attr("fill-opacity", 0.2)
-                      .attr("stroke", "none")
                       .attr("transform", d => `translate(${this.xScale(d.district) + this.xScale.bandwidth()/2},0)`)
                       .selectAll("circle")
                       .data(d => d.outliers)
                       .join("circle")
                       .attr("class", 'outlier-dots')
-                      .attr("r", 3)
-                      .attr("cx", () => (Math.random() - 0.5) * 4)
+                      .attr("r", 5)
+                      .attr("cx", () => (Math.random() - 0.5) * 2)
                       .attr("cy", d => this.yScale(d.Value))
-                      .on('click', d => {setGlobalState({ clickedOutlier: d }) })
+                      .on('click', d => {
+                          console.log("before global state hash", d.hash)
+                          setGlobalState({ clickedOutlier: d.hash }); 
+                          console.log("after global state hash", d.hash)
+                    })
                     ),
                 update => update,
                 exit => exit.remove()
                 );
+        
+        // this.container
+        //    .select('.outlier-dots')
+        //    .attr('stroke', d => 
+        //     state.clickedOutlier === d.hash ? 'red' : 'black')
     }
 }
+
+
+// this.tableRows.style("background-color", d =>
+// state.selectedState === d.State ? "grey" : this.colorScale(d['Total Housing Units'])
+// );
 
 export { Boxplot };

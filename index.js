@@ -86,5 +86,6 @@ function draw() {
 function setGlobalState(nextState) {
   state = { ...state, ...nextState };
   console.log("new state:", state);
+  console.log("clicked outlier", state.clickedOutlier);
   draw();
 }
