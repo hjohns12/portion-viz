@@ -49,33 +49,59 @@ class Beeswarm {
     draw(state, setGlobalState) {
       const formatValue = d3.format(".3");
 
-      this.cell = this.container  
-        .append("g")
-        // this.g.append("g")
-        .attr("class", "cells")
+      // this.cell = this.container  
+      //   .append("g")
+      //   .attr("class", "cells")
+      //   .selectAll("g.child")
+      //   .data(d3.voronoi() //consider using d3-delaunay for performance 
+      //   .extent([[-this.margins.left, -this.margins.top], [this.width + this.margins.right, this.height + this.margins.top]])
+      //   .x(function(d) { return d.x ; })
+      //   .y(function(d) { return d.y; })
+      //   .polygons(state.data))
+      //   .enter()
+      //   .append("g");
+
+      this.container
+        // .append("g")
+        // .attr("class", "cells")
         .selectAll("g.child")
-        // .selectAll("g")
-        .data(d3.voronoi() //consider using d3-delaunay for performance 
-        .extent([[-this.margins.left, -this.margins.top], [this.width + this.margins.right, this.height + this.margins.top]])
-        .x(function(d) { return d.x ; })
-        .y(function(d) { return d.y; })
-        .polygons(state.data))
-        .enter()
-        .append("g");
+        .data( d3.voronoi() //consider using d3-delaunay for performance 
+          .extent([[-this.margins.left, -this.margins.top], [this.width + this.margins.right, this.height + this.margins.top]])
+          .x(function(d) { return d.x ; })
+          .y(function(d) { return d.y; })
+          .polygons(state.data))
+        .join(enter => enter 
+          .append("g")
+          .attr("class", "child")
+          .call(sel => sel.append("circle")
+            .attr('fill-opacity', .3)
+            .attr('class', 'beeswarm-dots')
+            .attr("r", 3)
+            .attr("cx", function(d) { 
+              return d.data.x; })
+            .attr("cy", function(d) { 
+              return d.data.y; })
+            .attr("hash", function(d) { 
+                return d.data.hash; })
+          ),
+        update => update,
+        exit => exit.remove()
+        );
+        
 
-      this.cell.append("circle")
-          .attr('fill-opacity', .3)
-          .attr('class', 'beeswarm-dots')
-          .attr("r", 3)
-          .attr("cx", function(d) { 
-            return d.data.x; })
-          .attr("cy", function(d) { 
-            return d.data.y; })
-          .attr("hash", function(d) { 
-              return d.data.hash; });
+      // this.cell.append("circle")
+      //     .attr('fill-opacity', .3)
+      //     .attr('class', 'beeswarm-dots')
+      //     .attr("r", 3)
+      //     .attr("cx", function(d) { 
+      //       return d.data.x; })
+      //     .attr("cy", function(d) { 
+      //       return d.data.y; })
+      //     .attr("hash", function(d) { 
+      //         return d.data.hash; });
 
-      this.cell.append("info")
-          .text(function(d) { return "EG: " + formatValue(d.data.eg) ; })
+      // this.cell.append("info")
+      //     .text(function(d) { return "EG: " + formatValue(d.data.eg) ; })
 
       this.container
           .selectAll('.beeswarm-dots')
