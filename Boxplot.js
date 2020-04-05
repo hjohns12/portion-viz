@@ -79,15 +79,6 @@ class Boxplot {
         console.log("bins", bins)
         
         // make boxes
-
-        // have a new method called bin, and set them in state 
-// make sure that the filter checks first if 
-// map over 
-// bin (data, type, setGobalState) {
-//   (data)
-
-//   setGlobalState({[type]: bins  })
-// }
             this.container
             .selectAll("g.child")
              .data(bins.filter(d => d.type === state.selectedConstraint))
@@ -123,9 +114,11 @@ class Boxplot {
                       .selectAll("circle")
                       .data(d => d.outliers)
                       .join("circle")
+                      .attr("class", 'outlier-dots')
                       .attr("r", 3)
                       .attr("cx", () => (Math.random() - 0.5) * 4)
                       .attr("cy", d => this.yScale(d.Value))
+                      .on('click', d => {setGlobalState({ clickedOutlier: d }) })
                     ),
                 update => update,
                 exit => exit.remove()

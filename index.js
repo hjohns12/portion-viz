@@ -13,7 +13,8 @@ let state = {
   selectedConstraint: null, 
   long_data: [],
   filtered_data: [],
-  filtered_long_data: []
+  filtered_long_data: [],
+  clickedOutlier: null,
 };
 
 d3.csv("./data/sampled-plans.csv", d3.autoType).then(data => {
@@ -48,7 +49,6 @@ d3.csv("./data/sampled-plans.csv", d3.autoType).then(data => {
 })
 
 function init() {
-
   const initial_value = "Select a constraint";
   const selectElement = d3.select('#dropdown').on("change", function(){
     let tempFilter = [];
