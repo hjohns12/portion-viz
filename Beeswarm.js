@@ -49,21 +49,7 @@ class Beeswarm {
     draw(state, setGlobalState) {
       const formatValue = d3.format(".3");
 
-      // this.cell = this.container  
-      //   .append("g")
-      //   .attr("class", "cells")
-      //   .selectAll("g.child")
-      //   .data(d3.voronoi() //consider using d3-delaunay for performance 
-      //   .extent([[-this.margins.left, -this.margins.top], [this.width + this.margins.right, this.height + this.margins.top]])
-      //   .x(function(d) { return d.x ; })
-      //   .y(function(d) { return d.y; })
-      //   .polygons(state.data))
-      //   .enter()
-      //   .append("g");
-
       this.container
-        // .append("g")
-        // .attr("class", "cells")
         .selectAll("g.child")
         .data( d3.voronoi() //consider using d3-delaunay for performance 
           .extent([[-this.margins.left, -this.margins.top], [this.width + this.margins.right, this.height + this.margins.top]])
@@ -74,7 +60,6 @@ class Beeswarm {
           .append("g")
           .attr("class", "child")
           .call(sel => sel.append("circle")
-            .attr('fill-opacity', .3)
             .attr('class', 'beeswarm-dots')
             .attr("r", 3)
             .attr("cx", function(d) { 
@@ -87,18 +72,6 @@ class Beeswarm {
         update => update,
         exit => exit.remove()
         );
-        
-
-      // this.cell.append("circle")
-      //     .attr('fill-opacity', .3)
-      //     .attr('class', 'beeswarm-dots')
-      //     .attr("r", 3)
-      //     .attr("cx", function(d) { 
-      //       return d.data.x; })
-      //     .attr("cy", function(d) { 
-      //       return d.data.y; })
-      //     .attr("hash", function(d) { 
-      //         return d.data.hash; });
 
       // this.cell.append("info")
       //     .text(function(d) { return "EG: " + formatValue(d.data.eg) ; })
@@ -107,7 +80,9 @@ class Beeswarm {
           .selectAll('.beeswarm-dots')
           .attr('fill', d => state.clickedOutlier === d.data.hash ? 'yellow' : 'black')
           .attr('r', d => state.clickedOutlier === d.data.hash ? 10 : 3)
-          .attr('opacity', d => state.clickedOutlier === d.data.hash ? 1 : 0.3)
+          .attr('opacity', d => state.clickedOutlier === d.data.hash ? 1 : 0.8)
+          .attr('stroke', d => state.clickedOutlier === d.data.hash ? "black" : 'none')
+
     }
   }
   
