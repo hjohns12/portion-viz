@@ -2,9 +2,10 @@
 // import { Table } from "./Table.js";
 import { Boxplot } from "./Boxplot.js";
 import { Beeswarm } from "./Beeswarm.js";
+import { Table } from "./Table.js";
 
 // let table, boxplot, beeswarm;
-let boxplot, beeswarm;
+let boxplot, beeswarm, table;
 
 // global state
 let state = {
@@ -15,10 +16,10 @@ let state = {
   filtered_data: [],
   filtered_long_data: [],
   clickedOutlier: null,
+  clickedData: null
 };
 
 d3.csv("./data/sampled-plans.csv", d3.autoType).then(data => {
-  console.log("data", data);
   state.data = data;
   state.domain = [
     0, 
@@ -44,7 +45,6 @@ d3.csv("./data/sampled-plans.csv", d3.autoType).then(data => {
     });
   });
   state.long_data = long_data;
-  console.log("long data", state.long_data);
   init();
 })
 
@@ -69,16 +69,16 @@ function init() {
     .attr("value", d => d)
     .text(d => d);
   selectElement.property("value", initial_value);
-  //   table = new Table(state, setGlobalState);
   boxplot = new Boxplot(state, setGlobalState);
   beeswarm = new Beeswarm(state, setGlobalState);
+  table = new Table(state, setGlobalState);
   draw();
 }
 
 function draw() {
-//   table.draw(state);
   boxplot.draw(state, setGlobalState);
   beeswarm.draw(state, setGlobalState);
+  table.draw(state);
 }
 
 // UTILITY FUNCTION: 
@@ -86,6 +86,5 @@ function draw() {
 function setGlobalState(nextState) {
   state = { ...state, ...nextState };
   console.log("new state:", state);
-  console.log("clicked outlier", state.clickedOutlier);
   draw();
 }
