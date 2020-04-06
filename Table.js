@@ -1,7 +1,7 @@
 class Table {
 
     constructor(state, setGlobalState) {
-        const columns = ["D Seats", "R Seats", "EG"];
+        const columns = ["D Seats", "R Seats", "Efficiency Gap"];
         this.table = d3.select("#table").append("table");
 
         this.table
@@ -13,7 +13,6 @@ class Table {
           .text(d => d);
 
     }
-
     draw(state) {
         const formatValue = d3.format(".3");
 
@@ -22,7 +21,7 @@ class Table {
             const selectData = [state.clickedData].map(d => ({
                 "D Seats": +d.D_seats,
                 "R Seats": 8 - +d.D_seats,
-                "EG": formatValue(d.eg),
+                "Efficiency Gap": formatValue(d.eg),
             }))
             
             // this.table
@@ -50,7 +49,6 @@ class Table {
               .join("td")
               .text(d => d);
         }
-
     }
 
 

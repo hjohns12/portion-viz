@@ -1,9 +1,9 @@
 class Boxplot {
 
     constructor(state, setGlobalState) {
-        this.width = window.innerWidth * 0.9
-        this.height = window.innerHeight * 0.9
-        this.margins = {top: 20, bottom:100, left:60, right:20};
+        this.width = window.innerWidth * 0.6
+        this.height = window.innerHeight * 0.4
+        this.margins = {top: 20, bottom:20, left:60, right:20};
     
         this.svg = d3
           .select("#boxplot")
@@ -112,22 +112,23 @@ class Boxplot {
                       .data(d => d.outliers)
                       .join("circle")
                       .attr("class", 'outlier-dots')
-                    //   .attr("r", 5)
                       .attr("cx", () => (Math.random() - 0.5) * 2)
                       .attr("cy", d => this.yScale(d.Value))
                       .on('click', d => {
-                          setGlobalState({ clickedOutlier: d.hash }); 
+                        setGlobalState({ clickedData: d,
+                                         clickedHash: d.hash }); 
+                        console.log("d", d);
                     })
                     ),
                 update => update,
                 exit => exit.remove()
                 );
-        
+
         this.container
-           .selectAll('.outlier-dots')
-           .attr('fill', d => state.clickedOutlier === d.hash ? 'yellow' : 'white')
-           .attr('r', d => state.clickedOutlier === d.hash ? 10 : 5)
-           .attr('fill-opacity', d => state.clickedOutlier === d.hash ? 1 : 0.5)
+          .selectAll('.outlier-dots')
+          .attr('fill', d => state.clickedHash === d.hash ? 'yellow' : 'white')
+          .attr('r', d => state.clickedHash === d.hash ? 10 : 5)
+          .attr('fill-opacity', d => state.clickedHash === d.hash ? 1 : 0.5)
     }
 }
 

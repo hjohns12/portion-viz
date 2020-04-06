@@ -2,9 +2,9 @@ class Beeswarm {
 
     constructor(state, setGlobalState) {
       // initialize properties here
-      this.width = window.innerWidth * 0.9
-      this.height = window.innerHeight * 0.6;
-      this.margins = { top: 20, bottom: 50, left: 20, right: 20 };
+      this.width = window.innerWidth * 0.6
+      this.height = window.innerHeight * 0.4;
+      this.margins = { top: 0, bottom: 50, left: 20, right: 20 };
 
       this.svg = d3
         .select("#beeswarm")
@@ -19,7 +19,6 @@ class Beeswarm {
       
       const xAxis = d3.axisBottom(this.xScale);
 
-      // need to figure out how to position this so that it shows up
       this.svg
         .append("g")
         .attr("class", "axis x-axis")
@@ -47,7 +46,6 @@ class Beeswarm {
       }
 
     draw(state, setGlobalState) {
-      const formatValue = d3.format(".3");
 
       this.container
         .selectAll("g.child")
@@ -69,22 +67,20 @@ class Beeswarm {
             .attr("hash", function(d) { 
                 return d.data.hash; })
             .on('click', function(d) {
-                return setGlobalState({clickedData: d.data});
+                return setGlobalState({clickedData: d.data,
+                                       clickedHash: d.data.hash });
             })
           ),
         update => update,
         exit => exit.remove()
         );
 
-      // this.cell.append("info")
-      //     .text(function(d) { return "EG: " + formatValue(d.data.eg) ; })
-
       this.container
           .selectAll('.beeswarm-dots')
-          .attr('fill', d => state.clickedOutlier === d.data.hash ? 'yellow' : 'black')
-          .attr('r', d => state.clickedOutlier === d.data.hash ? 10 : 3)
-          .attr('opacity', d => state.clickedOutlier === d.data.hash ? 1 : 0.8)
-          .attr('stroke', d => state.clickedOutlier === d.data.hash ? "black" : 'none')
+          .attr('fill', d => state.clickedHash === d.data.hash ? 'yellow' : 'black')
+          .attr('r', d => state.clickedHash === d.data.hash ? 10 : 3)
+          .attr('opacity', d => state.clickedHash === d.data.hash ? 1 : 0.3)
+          .attr('stroke', d => state.clickedHash === d.data.hash ? "black" : 'none')
 
     }
   }

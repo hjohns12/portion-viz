@@ -1,11 +1,11 @@
 // import our components
-// import { Table } from "./Table.js";
+import { Explainer } from "./Explainer.js";
 import { Boxplot } from "./Boxplot.js";
 import { Beeswarm } from "./Beeswarm.js";
 import { Table } from "./Table.js";
 
 // let table, boxplot, beeswarm;
-let boxplot, beeswarm, table;
+let boxplot, beeswarm, table, explainer;
 
 // global state
 let state = {
@@ -13,10 +13,9 @@ let state = {
   domain: [],
   selectedConstraint: null, 
   long_data: [],
-  filtered_data: [],
   filtered_long_data: [],
-  clickedOutlier: null,
-  clickedData: null
+  clickedData: null,
+  clickedHash: null,
 };
 
 d3.csv("./data/sampled-plans.csv", d3.autoType).then(data => {
@@ -51,14 +50,10 @@ d3.csv("./data/sampled-plans.csv", d3.autoType).then(data => {
 function init() {
   const initial_value = "Select a constraint";
   const selectElement = d3.select('#dropdown').on("change", function(){
-    let tempFilter = [];
     let tempFilterLong = [];
-    // should maybe make these "if" statements to not filter the data if initial value
     setGlobalState({selectedConstraint: this.value})
-    tempFilter = state.data.filter(d => d.type === state.selectedConstraint);
     tempFilterLong = state.long_data.filter(d => d.type === state.selectedConstraint)
     setGlobalState({
-      filtered_data: tempFilter,
       filtered_long_data: tempFilterLong
     });
   });
@@ -72,6 +67,7 @@ function init() {
   boxplot = new Boxplot(state, setGlobalState);
   beeswarm = new Beeswarm(state, setGlobalState);
   table = new Table(state, setGlobalState);
+  explainer = new Explainer();
   draw();
 }
 
