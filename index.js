@@ -1,6 +1,6 @@
 // import our components
-import { Explainer } from "./Explainer.js";
 import { Boxplot } from "./Boxplot.js";
+import { Explainer } from "./Explainer.js";
 import { Beeswarm } from "./Beeswarm.js";
 import { Table } from "./Table.js";
 
