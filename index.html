@@ -11,8 +11,12 @@
       <h2>Visualizing the Efficiency Gap</h2>
     </header>
 
-    <label for="dropdown"></label>
-    <select id="dropdown" name="dropdown"></select>
+    <label for="dropdown">Select a constraint: </label>
+    <select id="dropdown" name="dropdown">
+      <option value="Select a constraint" selected="selected"></option>
+      <option value="pop-constraint">Equal population</option>
+      <option value="single-flip-contiguous">Contiguous districts</option>
+    </select>
 
     <div id="dashboard">
       <div id="table"> </div>

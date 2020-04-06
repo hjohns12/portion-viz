@@ -57,13 +57,6 @@ function init() {
       filtered_long_data: tempFilterLong
     });
   });
-  selectElement
-    .selectAll("option")
-    .data([...Array.from(new Set(state.data.map(d => d.type))), initial_value])
-    .join("option")
-    .attr("value", d => d)
-    .text(d => d);
-  selectElement.property("value", initial_value);
   boxplot = new Boxplot(state, setGlobalState);
   beeswarm = new Beeswarm(state, setGlobalState);
   table = new Table(state, setGlobalState);
