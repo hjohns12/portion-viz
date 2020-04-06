@@ -2,7 +2,7 @@ class Explainer {
     constructor() {
         d3.select("#explainer").append("p")
             .html(`To explore the data,
-             <span class="fancy-text">click on a dot from one graph</span> to observe its corresponding value in the other.`)
+             <span class="fancy-text">click on a dot from either graph</span> to observe its corresponding value in the other.`)
              .append("p")
             .text(
             `Every dot represents a possible congressional redistricting plan for the state of Missouri. I 
