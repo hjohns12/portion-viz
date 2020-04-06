@@ -45,6 +45,11 @@ body header {
     background-color: black;
     font-size: 20px;
   }
+
+  .fancy-text {
+    color: black;
+    background-color: yellow;
+  }
   
   tr {
     border-bottom: solid 1px #d3d3d3;
