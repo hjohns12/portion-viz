@@ -17,14 +17,15 @@ let state = {
   clickedHash: null,
 };
 
-d3.csv("./data/stsen_05_data_sampled.csv", d3.autoType).then(data => {
+d3.csv("./data/stsen_05_data_sampled_small.csv", d3.autoType).then(data => {
   state.data = data;
   const long_data = [];
   data.forEach( function(row) {
     Object.keys(row).forEach(function(colname) {
       if(colname == "District" || colname == "Value" || 
          colname == "election" || colname == "eg" || colname == "id" ||
-         colname == "D_seats" || colname == "hash") {
+         colname == "D_seats" || colname == "hash" || colname == "total_districts" ||
+         colname == "epsilon") {
         return
       }
       long_data.push({"District": colname,
@@ -33,7 +34,8 @@ d3.csv("./data/stsen_05_data_sampled.csv", d3.autoType).then(data => {
                       "eg": row["eg"],
                       "id": row["id"],
                       "D_seats": row["D_seats"],
-                      "hash": row["hash"] });
+                      "hash": row["hash"],
+                      "total_districts": row["total_districts"]});
     });
   });
   state.long_data = long_data;
@@ -41,15 +43,15 @@ d3.csv("./data/stsen_05_data_sampled.csv", d3.autoType).then(data => {
 })
 
 function init() {
-  // const initial_value = "Select an election";
-  // const selectElement = d3.select('#dropdown').on("change", function(){
-  //   let tempFilterLong = [];
-  //   setGlobalState({selectedConstraint: this.value})
-  //   tempFilterLong = state.long_data.filter(d => d.election === state.selectedConstraint)
-  //   setGlobalState({
-  //     filtered_long_data: tempFilterLong
-  //   });
-  // });
+  const initial_value = "Select an election";
+  const selectElement = d3.select('#dropdown').on("change", function(){
+    let tempFilterLong = [];
+    setGlobalState({selectedConstraint: this.value})
+    tempFilterLong = state.long_data.filter(d => d.election === state.selectedConstraint)
+    setGlobalState({
+      filtered_long_data: tempFilterLong
+    });
+  });
   boxplot = new Boxplot(state, setGlobalState);
   beeswarm = new Beeswarm(state, setGlobalState);
   table = new Table(state, setGlobalState);

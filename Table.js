@@ -20,7 +20,7 @@ class Table {
             
             const selectData = [state.clickedData].map(d => ({
                 "D Seats": +d.D_seats,
-                "R Seats": 8 - +d.D_seats,
+                "R Seats": 34 - +d.D_seats,
                 "Efficiency Gap": formatValue(d.eg),
             }))
             
