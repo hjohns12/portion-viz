@@ -11,8 +11,14 @@ class Boxplot {
           .attr("width", this.width)
           .attr("height", this.height);
 
-        this.districts = ["District 1", "District 2", "District 3", "District 4", "District 5", "District 6", "District 7", "District 8"]
-
+        // calculate number of ticks on x-axis + tick labels
+        const n_districts = d3.max(state.long_data, d => d.total_districts)
+        const distNums = new Array(n_districts)
+        for (let i = 0; i < distNums.length; i++){
+            distNums[i] = (i+1) // change tick label here if you wanna
+        }
+        this.districts = distNums
+        
         // set up the scales
         this.xScale = d3
             .scaleBand()
@@ -54,7 +60,8 @@ class Boxplot {
     draw(state, setGlobalState) {
 
         const bins = d3.histogram()
-          .thresholds([1, 2, 3, 4, 5, 6, 7, 8]) 
+        //   .thresholds([1, 2, 3, 4, 5, 6, 7, 8]) 
+          .thresholds(this.districts)
           .value(d => parseInt(d.District))
         (state.filtered_long_data)
           .map(bin => {
@@ -71,19 +78,21 @@ class Boxplot {
               bin.quartiles = [q1, q2, q3];
               bin.range = [bin.r0, bin.r1];
               bin.outliers = bin.filter(v => v.Value < bin.r0 || v.Value > bin.r1); // TODO - does this make sense?? 
-              bin.district = "District " + bin.x0;
+            //   bin.district = "District " + bin.x0;
+              bin.district = bin.x0;
               bin.distNum = bin.x0;
-              bin.type = bin.map(d => d.type)[0];
+              bin.election = bin.map(d => d.election)[0];
               return bin;
             })
+        console.log("bins", bins)
         
         // make boxes
             this.container
             .selectAll("g.child")
-             .data(bins.filter(d => d.type === state.selectedConstraint))
+             .data(bins.filter(d => d.election === state.selectedConstraint))
             .join(enter => enter
                 .append("g")
-                .attr("class", d => `child ${d.district}, ${d.type}`)
+                .attr("class", d => `child ${d.district}, ${d.election}`)
                    .call(sel => sel.append("line") //vertical line
                       .attr("stroke", "black")
                       .attr('x1', d => this.xScale(d.district) + this.xScale.bandwidth()/2)
