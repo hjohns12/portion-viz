@@ -46,18 +46,6 @@ function init() {
   const initial_value = "PRES16";
   state.selectedConstraint = initial_value;
   state.filtered_long_data = state.long_data.filter(d => d.election === initial_value);
-  // const selectElement = d3.select('#dropdown').on("change", function(){
-  //   console.log("re-setting state")
-  //   let tempFilterLong = [];
-  //   // setGlobalState({selectedConstraint: this.value})
-  //   // tempFilterLong = state.long_data.filter(d => d.election === state.selectedConstraint)
-  //   tempFilterLong = state.long_data.filter(d => d.election === this.value)
-  //   console.log("tempFilterLong", tempFilterLong);
-  //   setGlobalState({
-  //     selectedConstraint: this.value,
-  //     filtered_long_data: tempFilterLong
-  //   });
-  // });
   const selectElement = d3.select('#dropdown').on("change", function(){
     let tempFilterLong = [];
     setGlobalState({selectedConstraint: this.value})
