@@ -90,6 +90,7 @@ class Boxplot {
             this.container
             .selectAll("g.child")
              .data(bins.filter(d => d.election === state.selectedConstraint))
+            // .data(bins)
             .join(enter => enter
                 .append("g")
                 .attr("class", d => `child ${d.district}, ${d.election}`)
