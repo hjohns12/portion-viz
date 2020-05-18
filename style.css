@@ -8,6 +8,10 @@
 body header {
   font-family: 'Roboto Slab', serif;
   font-size: large;
+}
+
+.chart-title {
+  font-family: 'Roboto Slab', serif;
 
 }
 
@@ -62,3 +66,4 @@ body header {
     color: black;
     background-color: gray;
   }
+

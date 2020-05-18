@@ -3,7 +3,7 @@ class Boxplot {
     constructor(state, setGlobalState) {
         this.width = window.innerWidth * 0.6
         this.height = window.innerHeight * 0.4
-        this.margins = {top: 20, bottom:20, left:60, right:20};
+        this.margins = {top: 30, bottom:20, left:60, right:20};
     
         this.svg = d3
           .select("#boxplot")
@@ -58,6 +58,8 @@ class Boxplot {
     }
 
     draw(state, setGlobalState) {
+    
+    this.svg.selectAll("text.chart-title").remove()
 
         const bins = d3.histogram()
         //   .thresholds([1, 2, 3, 4, 5, 6, 7, 8]) 
@@ -138,6 +140,18 @@ class Boxplot {
           .attr('fill', d => state.clickedHash === d.hash ? 'yellow' : 'white')
           .attr('r', d => state.clickedHash === d.hash ? 10 : 5)
           .attr('fill-opacity', d => state.clickedHash === d.hash ? 1 : 0.5)
+
+        const chartTitle = "Democratic Vote Share by State Senate District " + "(" + state.selectedConstraint + ")"
+                    
+        // add chart title
+        this.container
+          .append("text")
+          .attr("class", "chart-title")
+          .attr("x", (this.width / 2))             
+          .attr("y", 13)
+          .attr("text-anchor", "middle")  
+          .style("font-size", "16px") 
+          .text(chartTitle);
     }
 }
 
