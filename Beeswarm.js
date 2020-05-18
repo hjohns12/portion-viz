@@ -43,6 +43,30 @@ class Beeswarm {
 
       this.container = this.svg.append('g').attr("class", "beeswarm container")
 
+      // add shading boxes 
+      const leftNegativeSeven = this.xScale(-.1499);
+      const rightNegativeSeven = this.xScale(-.07);
+      const rangeNegativeSeven = rightNegativeSeven - leftNegativeSeven;
+
+      const leftNegativeFifteen = this.xScale(d3.min(state.data, d => d.eg));
+      console.log("left Neg Fifteen", leftNegativeFifteen);
+      const rightNegativeFifteen = this.xScale(-.15);
+      const rangeNegativeFifteen = rightNegativeFifteen - leftNegativeFifteen;
+
+      // NegativeSeven admin
+      this.g
+        .append("rect")
+        .attr("x", leftNegativeSeven)
+        .attr("width", rangeNegativeSeven)
+        .attr("height", this.height*(6/7))
+        .attr("class", "seven-range");
+      // NegativeFifteen admin
+      this.g
+        .append("rect")
+        .attr("x", leftNegativeFifteen)
+        .attr("width", rangeNegativeFifteen)
+        .attr("height", this.height*(6/7))
+        .attr("class", "fifteen-range");
       }
 
     draw(state, setGlobalState) {

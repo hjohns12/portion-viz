@@ -67,3 +67,11 @@ body header {
     background-color: gray;
   }
 
+  .seven-range {
+    fill: #FFFFCE;
+  }
+  
+  .fifteen-range {
+    fill: #faf2f2; 
+  }
+
