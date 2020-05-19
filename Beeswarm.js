@@ -41,8 +41,6 @@ class Beeswarm {
       
       for (var i = 0; i < 120; ++i) simulation.tick();
 
-      this.container = this.svg.append('g').attr("class", "beeswarm container")
-
       const annotations = [
         {
           note: { label: "Proposed EG floor",
@@ -82,8 +80,10 @@ class Beeswarm {
         .append("g")
         .attr("class", "annotation-group")
         .call(makeAnnotations)
-      }
 
+        this.container = this.svg.append('g').attr("class", "beeswarm container")
+      }
+    
     draw(state, setGlobalState) {
 
       this.container
