@@ -4,7 +4,7 @@ class Beeswarm {
       // initialize properties here
       this.width = window.innerWidth * 0.6
       this.height = window.innerHeight * 0.4;
-      this.margins = { top: 0, bottom: 50, left: 20, right: 20 };
+      this.margins = { top: 20, bottom: 50, left: 20, right: 20 };
 
       this.svg = d3
         .select("#beeswarm")
@@ -43,30 +43,45 @@ class Beeswarm {
 
       this.container = this.svg.append('g').attr("class", "beeswarm container")
 
-      // add shading boxes 
-      const leftNegativeSeven = this.xScale(-.1499);
-      const rightNegativeSeven = this.xScale(-.07);
-      const rangeNegativeSeven = rightNegativeSeven - leftNegativeSeven;
-
-      const leftNegativeFifteen = this.xScale(d3.min(state.data, d => d.eg));
-      console.log("left Neg Fifteen", leftNegativeFifteen);
-      const rightNegativeFifteen = this.xScale(-.15);
-      const rangeNegativeFifteen = rightNegativeFifteen - leftNegativeFifteen;
-
-      // NegativeSeven admin
-      this.g
-        .append("rect")
-        .attr("x", leftNegativeSeven)
-        .attr("width", rangeNegativeSeven)
-        .attr("height", this.height*(6/7))
-        .attr("class", "seven-range");
-      // NegativeFifteen admin
-      this.g
-        .append("rect")
-        .attr("x", leftNegativeFifteen)
-        .attr("width", rangeNegativeFifteen)
-        .attr("height", this.height*(6/7))
-        .attr("class", "fifteen-range");
+      const annotations = [
+        {
+          note: { label: "Proposed EG floor",
+                  lineType: "none",
+                  align: "middle" },
+          subject: {
+            y1: this.margins.top + 30,
+            y2: this.height - this.margins.bottom
+          },
+          type: d3.annotationXYThreshold, 
+          x: this.xScale(-.15),
+          y: this.margins.top,
+        },
+        {
+          note: { 
+            title: "Extreme Efficiency Gap (below -0.7)", 
+            lineType: "none", 
+            align: "middle",
+            wrap: 250 //custom text wrapping
+          },
+          subject: {
+            height: this.height - this.margins.top - this.margins.bottom,
+            width: this.xScale(d3.min(state.data, d => d.eg)) - this.xScale(-.07)
+          },
+          type: d3.annotationCalloutRect,
+          x: this.xScale(-.07), //right-most point of the rect
+          y: this.margins.top,
+          disable: ["connector"], 
+          // dx: (this.xScale(d3.min(state.data, d => d.eg)) - this.xScale(-.07))/2, //centers the annotation
+          dx: (this.xScale(-.11) - this.xScale(-.07))/2, //positions the annotation
+        }
+      ]
+      const makeAnnotations = d3.annotation()
+        .annotations(annotations)
+      
+      this.svg
+        .append("g")
+        .attr("class", "annotation-group")
+        .call(makeAnnotations)
       }
 
     draw(state, setGlobalState) {
