@@ -58,7 +58,7 @@ class Beeswarm {
         },
         {
           note: { 
-            title: "Extreme Efficiency Gap (below -0.7)", 
+            title: "Extreme Efficiency Gap (below -0.07)", 
             lineType: "none", 
             align: "middle",
             wrap: 250 //custom text wrapping
