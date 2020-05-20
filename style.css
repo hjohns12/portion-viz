@@ -26,6 +26,11 @@ body header {
     font-size: 14px;
     fill: black;
     text-anchor: middle;
+    font-family: 'Roboto Mono', monospace;
+  }
+
+  .tick {
+    font-family: 'Roboto Mono', monospace;
   }
   
   .circles {
