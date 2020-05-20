@@ -8,10 +8,15 @@
 body header {
   font-family: 'Roboto Slab', serif;
   font-size: large;
+  /* text-align: center; */
 }
 
 .chart-title {
   font-family: 'Roboto Mono', monospace;
+}
+
+select {
+  font-family: 'Roboto Mono', monospace;  
 }
 
 #dashboard {

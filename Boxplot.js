@@ -1,15 +1,15 @@
 class Boxplot {
 
     constructor(state, setGlobalState) {
-        this.width = window.innerWidth * 0.6
-        this.height = window.innerHeight * 0.4
-        this.margins = {top: 30, bottom:20, left:60, right:20};
+        this.width = window.innerWidth * 0.6;
+        this.height = window.innerHeight * 0.5;
+        this.margins = {top: 30, bottom:25, left:60, right:20};
     
         this.svg = d3
           .select("#boxplot")
           .append("svg")
           .attr("width", this.width)
-          .attr("height", this.height);
+          .attr("height", this.height + this.margins.bottom);
 
         // calculate number of ticks on x-axis + tick labels
         const n_districts = d3.max(state.long_data, d => d.total_districts)
@@ -38,6 +38,11 @@ class Boxplot {
             .attr("class", "axis x-axis")
             .attr("transform", `translate(0, ${this.height - this.margins.bottom})`)
             .call(this.xAxis)
+            .append("text")
+            .attr("class", "axis-label")
+            .attr("x", "50%")
+            .attr("dy", "3em")
+            .text("Indexed District");
         
         // make y-axis
         this.yAxis = d3.axisLeft(this.yScale).tickFormat(d3.format(".0%"));
